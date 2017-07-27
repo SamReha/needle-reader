@@ -25,7 +25,8 @@ void loop() {
   Serial.print(", ");
   //Serial.println(getSwitchState());
   Serial.println(getSwitchState());
-  
+
+  // Randomly set position of white needle
   setWhiteNeedle(needleSetting);
 
   if (millis() - upTime >= 1000) {
