@@ -9,11 +9,16 @@
 
 // Demo vars
 int needleSetting = 0;
-long upTime;
+long needleTime;
+long lightTime;
+
+bool redState = false;
+bool orangeState = true;
 
 void setup() {
   Serial.begin(9600);
-  upTime = millis();
+  needleTime = millis();
+  lightTime = millis();
 
   pinMode(RED_LIGHT, OUTPUT);
   pinMode(ORANGE_LIGHT, OUTPUT);
@@ -29,9 +34,19 @@ void loop() {
   // Randomly set position of white needle
   setWhiteNeedle(needleSetting);
 
-  if (millis() - upTime >= 1000) {
+  if (millis() - needleTime >= 1000) {
     needleSetting = random(0, 30);
-    upTime = millis();
+    needleTime = millis();
+  }
+
+  if (millis() - lightTime >= 500) {
+    redState = !redState;
+    orangeState = !orangeState;
+
+    setRed(redState);
+    setOrange(orangeState);
+  
+    lightTime = millis();
   }
 }
 
@@ -57,12 +72,15 @@ bool getSwitchState() {
   return analogRead(SWITCH_IN) > 650;
 }
 
-// Hmm... I think I need to work out a way to step up the voltage for these lights.
-void lightOrange() {
-  digitalWrite(HIGH, ORANGE_LIGHT);
+void setOrange(bool setting) {
+  if (setting) {
+    digitalWrite(ORANGE_LIGHT, HIGH);
+  } else digitalWrite(ORANGE_LIGHT, LOW);
 }
 
-void lightRed() {
-  digitalWrite(HIGH, RED_LIGHT);
+void setRed(bool setting) {
+  if (setting) {
+    digitalWrite(RED_LIGHT, HIGH);
+  } else digitalWrite(RED_LIGHT, LOW);
 }
 
