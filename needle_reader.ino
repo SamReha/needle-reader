@@ -6,6 +6,7 @@
 #define RED_LIGHT 2
 #define ORANGE_LIGHT 3
 #define SWITCH_IN A1
+//#define SWITCH_IN 4
 
 // Demo vars
 int needleSetting = 0;
@@ -22,14 +23,15 @@ void setup() {
 
   pinMode(RED_LIGHT, OUTPUT);
   pinMode(ORANGE_LIGHT, OUTPUT);
+  pinMode(SWITCH_IN, OUTPUT);
 }
 
 void loop() {
   // Report red needle value and switch state
   Serial.print(readRedNeedle());
   Serial.print(", ");
-  //Serial.println(getSwitchState());
   Serial.println(getSwitchState());
+  //Serial.println(analogRead(SWITCH_IN));
 
   // Randomly set position of white needle
   setWhiteNeedle(needleSetting);
